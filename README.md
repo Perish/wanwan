@@ -19,7 +19,7 @@ add-ssh -l
 
 <code>
 ssh-add ～/.ssh/id_rsa.github
-ssh-add ～/.ssh/id_rsa.work
+</code><code>ssh-add ～/.ssh/id_rsa.work
 </code>
 
 接下来
@@ -27,22 +27,23 @@ ssh-add ～/.ssh/id_rsa.work
 
 <code>
 touch ~/.ssh/config
-chmod 600 ~/.ssh/config
+</code><code>chmod 600 ~/.ssh/config
 </code>
 
 修改config文件的内容:
 
 <code>
 Host github.com
-    HostName github.com
-    IdentityFile ~/.ssh/id_rsa.github
-    User git
+</code><code>    HostName github.com
+</code><code>    IdentityFile ~/.ssh/id_rsa.github
+</code><code>    User git
 </code>
+
 <code>
 Host github-work
-    HostName github.com
-    IdentityFile ~/.ssh/id_rsa.work
-    User git
+</code><code>    HostName github.com
+</code><code>    IdentityFile ~/.ssh/id_rsa.work
+</code><code>    User git
 </code>
 
 
@@ -60,25 +61,41 @@ xclip -sel clip < ~/.ssh/id_rsa.pub
 在本地创建一些文件,用id_rsa.work中的key提交
 
 <code>
-mkdir work
-cd work
-git init
-touch a.txt
-git add a.txt
-git commit -m "add a file a.txt"
-git remote add origin git@github-work:user_name/repo.git ##并非原来的git@github.com:user_name/repo.git
-git push -u origin master
+mkdir work</code>
+<code>cd work</code>
+<code>git init</code>
+<code>touch a.txt</code>
+<code>git add a.txt</code>
+<code>git commit -m "add a file a.txt"</code>
+<code>git remote add origin git@github-work:user_name/repo.git</code> ##并非原来的git@github.com:user_name/repo.git
+<code>git push -u origin master</code>
 </code>
 
 用id_rsa.github中的key提交:
 
 <code>
 mkdir work
-cd work
-git init
-touch a.txt
-git add a.txt
-git commit -m "add a file a.txt"
-git remote add origin git@github.com:user_name/repo.git 
-git push -u origin master
+</code><code>cd work
+</code><code>git init
+</code><code>touch a.txt
+</code><code>git add a.txt
+</code><code>git commit -m "add a file a.txt"
+</code><code>git remote add origin git@github.com:user_name/repo.git 
+</code><code>git push -u origin master
 </code>
+
+
+fatal: remote error: You can't push to git 解决办法
+
+<code>
+fatal: remote error: 
+</code><code>  You can't push to git://github.com/user_name/user_repo.git
+</code><code>  Use git@github.com:user_name/user_repo.git
+</code>
+  解决办法：
+<code>
+$ git remote rm origin
+</code><code>$ git remote add origin git@github.com:user_name/user_repo.git
+</code><code>$ git push origin
+</code>
+如果在git clone的时候用的是git://github.com:xx/xxx.git 的形式, 那么就会出现这个问题，因为这个protocol是不支持push的
